@@ -2,9 +2,11 @@
 
 **Solução de gestão para marcenarias e pequenas empresas do setor moveleiro**
 
-<img src="assets/good-systems-logo.png" alt="EasyWood Logo" width="150" />
+<div style="display: flex; align-items: center; justify-content: center">
+<img src="assets/good-systems-logo.png" alt="Good Systems Logo" width="150" />
+<img src="assets/easy-wood-system.png" alt="Easy System Logo" width="150" />
+</div>
 
----
 
 ## 🚀 Sobre
 
@@ -34,7 +36,7 @@ O **EasyWood System** é um aplicativo web desenvolvido como projeto integrador 
 
 ## 📚 Documentação
 
- A documentação completa do projeto estará disponível na pasta `docs/`. Para ver detalhes de instalação avançada, diagramas e manuais de uso.
+A documentação completa do projeto estará disponível na pasta `docs/`. Para ver detalhes de instalação avançada, diagramas e manuais de uso.
 
 ---
 
