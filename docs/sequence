@@ -1,0 +1,46 @@
+@startuml
+actor Prestador
+actor Cliente
+
+participant "Tela de Login" as LoginUI
+participant "Sistema" as Sistema
+participant "Base de Dados" as DB
+
+== Login do Prestador ==
+Prestador -> LoginUI : Inserir email e senha
+LoginUI -> Sistema : autenticar(email, senha)
+Sistema -> DB : verificarCredenciais()
+DB --> Sistema : credenciais válidas
+Sistema --> LoginUI : acesso permitido
+
+== Geração da Ordem de Serviço ==
+Prestador -> Sistema : criarOrdemServico(descrição, preço)
+Sistema -> DB : salvarOrdemServico()
+DB --> Sistema : ordem de serviço salva com ID
+Sistema --> Prestador : ordem de serviço criada com sucesso
+
+== Prestador adiciona arquivos na Ordem de Serviço ==
+Prestador -> Sistema : uploadArquivos(idOrdemServico, arquivos)
+Sistema -> DB : armazenarArquivos(idOrdemServico, arquivos)
+DB --> Sistema : arquivos armazenados com sucesso
+Sistema --> Prestador : arquivos enviados com sucesso
+
+== Login do Cliente ==
+Cliente -> LoginUI : Inserir email e senha
+LoginUI -> Sistema : autenticar(email, senha)
+Sistema -> DB : verificarCredenciais()
+DB --> Sistema : credenciais válidas
+Sistema --> LoginUI : acesso permitido
+
+== Cliente acompanha a Ordem de Serviço ==
+Cliente -> Sistema : consultarStatus(idOrdemServico)
+Sistema -> DB : buscarStatus(idOrdemServico)
+DB --> Sistema : status = "Em andamento"
+Sistema --> Cliente : status da ordem de serviço
+
+== Cliente visualiza arquivos da Ordem de Serviço ==
+Cliente -> Sistema : visualizarArquivosDaOrdem(idOrdemServico)
+Sistema -> DB : buscarArquivosPorOrdem(idOrdemServico)
+DB --> Sistema : lista de arquivos da ordem de serviço
+Sistema --> Cliente : exibir arquivos vinculados
+@enduml
