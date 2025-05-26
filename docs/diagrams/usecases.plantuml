@@ -1,0 +1,38 @@
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+
+actor Prestador
+actor Cliente
+
+package "Sistema de Gestão de Marcenaria" {
+  
+  usecase "Cadastro de Usuário" as UC01
+  usecase "Login de Usuário" as UC02
+  usecase "Gerar Ordem de Serviço" as UC03
+  usecase "Alterar Status da Ordem de Serviço" as UC04
+  usecase "Gerenciar Pagamentos" as UC05
+  usecase "Gerenciar Estoque" as UC06
+  usecase "Anexar Arquivos (Imagens, esboços)" as UC07
+  usecase "Acompanhar Andamento do Serviço" as UC08
+  usecase "Ver Histórico de Serviços" as UC09
+  usecase "Visualizar Dashboard Financeiro" as UC10
+  usecase "Visualizar Arquivos Anexados (Imagens, esboços)" as UC11
+}
+
+Prestador --> UC01
+Prestador --> UC02
+Prestador --> UC03
+Prestador --> UC04
+Prestador --> UC05
+Prestador --> UC06
+Prestador --> UC07
+Prestador --> UC10
+
+
+Cliente --> UC01
+Cliente --> UC02
+Cliente --> UC08
+Cliente --> UC09
+
+@enduml
