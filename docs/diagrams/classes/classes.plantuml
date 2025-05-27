@@ -1,0 +1,81 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+' Entidades principais
+class Usuario {
+  - id: int
+  - nome: string
+  - email: string
+  - senha: string
+  - tipo: string <<Comerciante/Cliente>>
+  + autenticar(): boolean
+}
+
+class Comerciante {
+  + gerarOrdemServico(): OrdemServico
+  + alterarStatusOrdem()
+  + gerenciarPagamentos()
+  + receberAlertaEstoque()
+  + anexarArquivo()
+}
+
+class Cliente {
+  + acompanharServico()
+  + visualizarHistorico()
+}
+
+class OrdemServico {
+  - id: int
+  - dataCriacao: Date
+  - descricao: string
+  - preco: double
+  - status: string <<Em andamento, Concluído, Cancelado>>
+  + atualizarStatus()
+}
+
+class Pagamento {
+  - id: int
+  - valor: double
+  - status: string <<Pago, A vencer, Em atraso, Cancelado>>
+  - dataVencimento: Date
+  + registrarPagamento()
+}
+
+class Estoque {
+  - id: int
+  - nomeItem: string
+  - quantidade: int
+  - limiteMinimo: int
+  + verificarNivel()
+}
+
+class ArquivoAnexo {
+  - id: int
+  - tipo: string <<Imagem, Vídeo, Projeto>>
+  - caminhoArquivo: string
+  + anexar()
+}
+
+class DashboardFinanceiro {
+  + exibirResumo()
+}
+
+class NFIntegracao {
+  + exportarDados(OrdemServico): void
+}
+
+' Relacionamentos
+Usuario <|-- Comerciante
+Usuario <|-- Cliente
+
+Comerciante "1" -- "*" OrdemServico : cria >
+Cliente "1" -- "*" OrdemServico : acompanha >
+
+OrdemServico "1" -- "1" Pagamento : gera >
+OrdemServico "1" -- "*" ArquivoAnexo : contém >
+Estoque "1" -- "0..*" OrdemServico : usa >
+
+Comerciante "1" -- "1" DashboardFinanceiro : acessa >
+Comerciante "1" -- "1" NFIntegracao : usa >
+
+@enduml
