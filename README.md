@@ -12,6 +12,11 @@
 
 O **EasyWood System** é um aplicativo web desenvolvido como projeto integrador do curso de Desenvolvimento de Software Multiplataforma na FATEC Araras. Voltado para marcenarias, oferece controle de ordens de serviço, pagamentos, estoque e acompanhamento em tempo real pelo cliente.
 
+Está sendo construído como uma API RESTful utilizando **Laravel** no backend, para oferecer uma base sólida, escalável e segura. 
+O frontend será desenvolvido separadamente, utilizando uma tecnologia moderna a ser definida futuramente (React, Vue, Angular, ou outra).
+
+Estruturação permitirá maior flexibilidade, facilitando a integração com múltiplos clientes (web, mobile) e melhor manutenção do código.
+
 ---
 
 ## ✨ Funcionalidades Principais
@@ -27,9 +32,9 @@ O **EasyWood System** é um aplicativo web desenvolvido como projeto integrador 
 
 ## 🛠️ Tecnologias Utilizadas
 
-- **Frontend:** Bootstrap, Jquery e JavaScript Vanilla
-- **Backend:** PHP
-- **Banco de Dados:** MySQL ou PostgreSQL
+- **Frontend:** React, Vue, ou outra tecnologia
+- **Backend:** PHP/Laravel
+- **Banco de Dados:** MySQL
 - **Controle de Versão:** Git & GitHub
 
 ---
