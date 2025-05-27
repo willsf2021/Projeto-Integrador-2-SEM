@@ -34,5 +34,6 @@ Cliente --> UC01
 Cliente --> UC02
 Cliente --> UC08
 Cliente --> UC09
+Cliente --> UC11
 
 @enduml
