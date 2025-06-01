@@ -1,0 +1,177 @@
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import { motion } from "framer-motion";
+import api from "../../api/axios";
+import { schema } from "./validationSchema.js";
+import "./login.css";
+import woodTexture from "/wood-texture.jpg";
+
+const easyWoodLogo = "/easy-wood-system.png";
+
+export const Login = () => {
+  const handleLogin = async (values, { setSubmitting, setStatus }) => {
+    try {
+      const response = await api.post("/login", {
+        email: values.email,
+        password: values.password,
+      });
+
+      const { tipoUsuario, token } = response.data;
+
+      localStorage.setItem("token", token);
+      localStorage.setItem("tipoUsuario", tipoUsuario);
+
+      setStatus({ success: true });
+
+      setTimeout(() => {
+        if (tipoUsuario === "cliente") {
+          window.location.href = "/cliente";
+        } else {
+          window.location.href = "/prestador";
+        }
+      }, 1500);
+    } catch (err) {
+      console.error(
+        "Erro no login:",
+        err.response?.data?.message || err.message
+      );
+      setStatus({
+        error: err.response?.data?.message || "Erro desconhecido no login",
+      });
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  return (
+    <div className="login-container">
+      <div className="login-content-wrapper">
+        <div className="login-form-section">
+          <motion.div
+            className="login-card"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <div className="login-header">
+              <div className="logo-container">
+                <img
+                  src={easyWoodLogo}
+                  alt="Easy Wood System"
+                  className="easywood-logo"
+                />
+              </div>
+            </div>
+
+            <Formik
+              initialValues={{ email: "", password: "" }}
+              validationSchema={schema}
+              onSubmit={handleLogin}
+            >
+              {({ isSubmitting, status }) => (
+                <Form className="login-form">
+                  {status?.success && (
+                    <motion.div
+                      className="login-success"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                    >
+                      Login realizado! Redirecionando...
+                    </motion.div>
+                  )}
+
+                  {status?.error && (
+                    <motion.div
+                      className="login-error"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                    >
+                      {status.error}
+                    </motion.div>
+                  )}
+
+                  <div className="form-group">
+                    <div className="input-container">
+                      <Field
+                        type="email"
+                        name="email"
+                        placeholder="E-mail"
+                        className="form-input"
+                      />
+                    </div>
+                    <ErrorMessage
+                      name="email"
+                      component="div"
+                      className="error-message"
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <div className="input-container">
+                      <Field
+                        type="password"
+                        name="password"
+                        placeholder="Senha"
+                        className="form-input"
+                      />
+                    </div>
+                    <ErrorMessage
+                      name="password"
+                      component="div"
+                      className="error-message"
+                    />
+                  </div>
+
+                  <div className="form-options">
+                    <label className="remember-me">
+                      <Field type="checkbox" name="remember" />
+                      <span>Lembrar-me</span>
+                    </label>
+                  </div>
+
+                  <motion.div
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <button
+                      type="submit"
+                      className="login-button"
+                      disabled={isSubmitting}
+                    >
+                      {isSubmitting ? (
+                        <div className="spinner">
+                          <div className="bounce1"></div>
+                          <div className="bounce2"></div>
+                          <div className="bounce3"></div>
+                        </div>
+                      ) : (
+                        "Entrar"
+                      )}
+                    </button>
+                  </motion.div>
+                </Form>
+              )}
+            </Formik>
+          </motion.div>
+        </div>
+
+        <div
+          className="login-image-section"
+          style={{ backgroundImage: `url(${woodTexture})` }}
+        >
+          <div className="login-image-overlay"></div>
+          <div className="login-image-overlay"></div>
+          <div className="login-image-overlay"></div>
+
+          <motion.div
+            className="image-overlay-content"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3, duration: 0.8 }}
+          >
+
+          </motion.div>
+        </div>
+      </div>
+    </div>
+  );
+};
