@@ -11,6 +11,15 @@ use Illuminate\Support\Facades\Auth;
 class OrderController extends Controller
 {
 
+    // Neste Controller e rota para os métodos é a mesma!
+    // O que vai diferenciar os métodos que serão chamados são os verbos das requisições HTTP
+
+    // Get-> index();
+    // Get/:id-> show();
+    // Post-> store();
+    // Patch/:id -> udapte();
+    // Delete/:id -> destroy();
+
     public function index()
     {
         $orders = Order::where('merchant_id', Auth::id())
