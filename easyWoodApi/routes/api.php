@@ -2,10 +2,10 @@
 
 use App\Http\Controllers\Api\Client\ClientOrderController;
 use App\Http\Controllers\Api\Merchant\OrderController;
-use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Api\Merchant\OrderAttachmentController;
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
@@ -14,13 +14,35 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/me', [AuthController::class, 'me']);
 
-    Route::prefix('client')->group(function () {
+    Route::middleware('client')->prefix('client')->group(function () {
         Route::get('/orders', [ClientOrderController::class, 'index']);
         Route::get('/orders/history', [ClientOrderController::class, 'history']);
         Route::get('/orders/{order}', [ClientOrderController::class, 'show']);
+        Route::get(
+            '/orders/{order}/attachments/{attachment}/download',
+            [ClientOrderController::class, 'downloadAttachment']
+        );
     });
 
     Route::middleware('merchant')->group(function () {
-        Route::apiResource('orders', \App\Http\Controllers\Api\Merchant\OrderController::class);
+        Route::apiResource('orders', OrderController::class);
+
+        Route::prefix('orders/{order}')->group(function () {
+
+            Route::get(
+                'attachments/{attachment}/download',
+                [OrderAttachmentController::class, 'download']
+            )
+                ->name('orders.attachments.download');
+
+            Route::apiResource('attachments', OrderAttachmentController::class)
+                ->only(['index', 'store', 'destroy'])
+                ->scoped(['attachment' => 'id'])
+                ->names([
+                    'index' => 'orders.attachments.index',
+                    'store' => 'orders.attachments.store',
+                    'destroy' => 'orders.attachments.destroy',
+                ]);
+        });
     });
 });
