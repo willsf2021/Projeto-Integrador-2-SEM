@@ -4,10 +4,12 @@ import api from "../../api/axios";
 import { schema } from "./validationSchema.js";
 import "./login.css";
 import woodTexture from "/wood-texture.jpg";
+import { useNavigate } from "react-router-dom";
 
 const easyWoodLogo = "/easy-wood-system.png";
 
 export const Login = () => {
+  const navigate = useNavigate();
   const handleLogin = async (values, { setSubmitting, setStatus }) => {
     try {
       const response = await api.post("/login", {
@@ -15,18 +17,18 @@ export const Login = () => {
         password: values.password,
       });
 
-      const { tipoUsuario, token } = response.data;
+      const { user, token } = response.data;
 
       localStorage.setItem("token", token);
-      localStorage.setItem("tipoUsuario", tipoUsuario);
+      localStorage.setItem("type", user.type);
 
       setStatus({ success: true });
 
       setTimeout(() => {
-        if (tipoUsuario === "cliente") {
-          window.location.href = "/cliente";
+        if (user.type == "client") {
+          navigate("/dashboard-cliente");
         } else {
-          window.location.href = "/prestador";
+          navigate("/dashboard-prestador");
         }
       }, 1500);
     } catch (err) {
