@@ -17,9 +17,9 @@ export const Login = () => {
         password: values.password,
       });
 
-      const { user, token } = response.data;
+      const { user, access_token } = response.data;
 
-      localStorage.setItem("token", token);
+      localStorage.setItem("token", access_token);
       localStorage.setItem("type", user.type);
 
       setStatus({ success: true });
@@ -169,9 +169,7 @@ export const Login = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.8 }}
-          >
-
-          </motion.div>
+          ></motion.div>
         </div>
       </div>
     </div>
