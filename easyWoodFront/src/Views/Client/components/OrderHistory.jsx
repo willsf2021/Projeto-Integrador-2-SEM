@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import axios from "../../api/axios";
+import ClientOrderService from "../../../services/ClientOrderService";
+import "./OrderHistory.css";
 
 const OrderHistory = () => {
   const [orders, setOrders] = useState([]);
@@ -9,14 +10,8 @@ const OrderHistory = () => {
   useEffect(() => {
     const fetchHistory = async () => {
       try {
-        const access_token = localStorage.getItem("token");
-
-        const response = await axios.get("/client/orders/history", {
-          headers: {
-            Authorization: `Bearer ${access_token}`,
-          },
-        });
-        setOrders(response.data);
+        const data = await ClientOrderService.getOrderHistory();
+        setOrderInfo(data);
       } catch (err) {
         if (err.response?.status === 403) {
           setError("Acesso não autorizado");
@@ -31,17 +26,59 @@ const OrderHistory = () => {
     fetchHistory();
   }, []);
 
-  if (loading) return <p>Carregando...</p>;
-  if (error) return <p className="error">{error}</p>;
+  const setOrderInfo = (data) => {
+    let orders = data.map((order) => {
+      let status = "";
+      switch (order.status) {
+        case "pending":
+          status = "Pendente";
+          break;
+        case "canceled":
+          status = "Cancelado";
+          break;
+        case "completed":
+          status = "Concluído";
+          break;
+        case "in_progress":
+          status = "Em andamento";
+          break;
+      }
+      order.status = status;
+      return order;
+    });
+    setOrders(orders);
+  };
+
+  if (loading)
+    return (
+      <div className="loading-state">
+        <div className="loading-spinner" />
+        <p>Carregando histórico de pedidos...</p>
+      </div>
+    );
+
+  if (error)
+    return (
+      <div className="error-state">
+        <p>{error}</p>
+      </div>
+    );
 
   return (
     <div className="history-container">
-      <h2>Histórico de Pedidos</h2>
+      <div className="orders-header">
+        <h2>Histórico de Pedidos concluídos ou cancelados</h2>
+      </div>
+
       {orders.length === 0 ? (
-        <p>Nenhum pedido no histórico</p>
+        <div className="empty-state">
+          <div className="empty-icon">📭</div>
+          <h3>Sem pedidos finalizados ainda</h3>
+          <p>Quando seus pedidos forem concluídos, eles aparecerão aqui.</p>
+        </div>
       ) : (
         <div className="orders-table">
-          <table>
+          <table className="history-table">
             <thead>
               <tr>
                 <th>ID</th>

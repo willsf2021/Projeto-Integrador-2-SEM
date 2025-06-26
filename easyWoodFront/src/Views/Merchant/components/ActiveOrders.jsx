@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { getMerchantOrders } from "../../api/merchantOrders";
+import { useNavigate } from "react-router-dom";
+import MerchantOrderService from "../../../services/MerchantOrderService";
 
-const ActiveOrders = ({ onViewOrder }) => {
+const MerchantActiveOrders = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const data = await getMerchantOrders();
-        // Filtrar apenas pedidos ativos (não completos ou cancelados)
+        const data = await MerchantOrderService.getOrders();
         const activeOrders = data.filter(
           (order) => !["completed", "cancelled"].includes(order.status)
         );
@@ -24,6 +25,10 @@ const ActiveOrders = ({ onViewOrder }) => {
 
     fetchOrders();
   }, []);
+
+  const handleViewOrder = (orderId) => {
+    navigate(`/dashboard-prestador/pedidos/${orderId}`);
+  };
 
   if (loading) {
     return <div className="loading">Carregando pedidos...</div>;
@@ -58,9 +63,6 @@ const ActiveOrders = ({ onViewOrder }) => {
                   <strong>Cliente:</strong> {order.client?.name || "N/A"}
                 </p>
                 <p>
-                  {/* <strong>Valor:</strong> R$ {order.price.toFixed(2)} */}
-                </p>
-                <p>
                   <strong>Prazo:</strong>{" "}
                   {order.due_date || "Sem prazo definido"}
                 </p>
@@ -69,7 +71,7 @@ const ActiveOrders = ({ onViewOrder }) => {
               <div className="order-actions">
                 <button
                   className="btn btn-primary"
-                  onClick={() => onViewOrder(order)}
+                  onClick={() => handleViewOrder(order.id)}
                 >
                   Ver Detalhes
                 </button>
@@ -82,4 +84,4 @@ const ActiveOrders = ({ onViewOrder }) => {
   );
 };
 
-export default ActiveOrders;
+export default MerchantActiveOrders;

@@ -1,7 +1,7 @@
 // src/pages/OrderDetail.jsx
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import axios from "../../api/axios";
+import ClientOrderService from "../../../services/ClientOrderService";
 import "./OrderDetail.css";
 
 const OrderDetail = () => {
@@ -14,14 +14,8 @@ const OrderDetail = () => {
   useEffect(() => {
     const fetchOrder = async () => {
       try {
-        const access_token = localStorage.getItem("token");
-
-        const response = await axios.get(`/client/orders/${id}`, {
-          headers: {
-            Authorization: `Bearer ${access_token}`,
-          },
-        });
-        setOrder(response.data);
+        const data = await ClientOrderService.getOrderById(id);
+        setOrderInfo(data);
       } catch (err) {
         console.log(err);
         if (err.response?.status === 403) {
@@ -39,18 +33,33 @@ const OrderDetail = () => {
     fetchOrder();
   }, [id]);
 
+  const setOrderInfo = (data) => {
+    let order = data;
+    let status = "";
+
+    switch (data.status) {
+      case "pending":
+        status = "Pendente";
+        break;
+      case "canceled":
+        status = "Cancelado";
+        break;
+      case "completed":
+        status = "Concluído";
+        break;
+      case "in_progress":
+        status = "Em andamento";
+        break;
+    }
+
+    order.status = status;
+    setOrder(order);
+  };
+
   const handleDownload = async (attachmentId, filename) => {
     try {
-      const access_token = localStorage.getItem("token");
-      const response = await axios.get(
-        `/client/orders/${id}/attachments/${attachmentId}/download`,
-        {
-          responseType: "blob",
-          headers: {
-            Authorization: `Bearer ${access_token}`,
-          },
-        }
-      );
+      const service = new ClientOrderService();
+      const response = await service.downloadAttachment(id, attachmentId);
 
       const url = window.URL.createObjectURL(new Blob([response.data]));
       const link = document.createElement("a");
@@ -80,11 +89,14 @@ const OrderDetail = () => {
         &larr; Voltar
       </button>
 
-      <h2>Detalhes do Pedido #{order.id}</h2>
+      <h2>Detalhes do Pedido</h2>
 
       <div className="order-info">
         <p>
           <strong>Status:</strong> {order.status}
+        </p>
+        <p>
+          <strong>Descrição do pedido:</strong> {order.description}
         </p>
         <p>
           <strong>Criado em:</strong>{" "}

@@ -1,6 +1,6 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { motion } from "framer-motion";
-import api from "../../api/axios";
+import api from "../../services/api.js";
 import { schema } from "./validationSchema.js";
 import "./login.css";
 import woodTexture from "/wood-texture.jpg";
@@ -21,6 +21,8 @@ export const Login = () => {
 
       localStorage.setItem("token", access_token);
       localStorage.setItem("type", user.type);
+      localStorage.setItem("userName", user.name);
+      localStorage.setItem("email", user.email);
 
       setStatus({ success: true });
 

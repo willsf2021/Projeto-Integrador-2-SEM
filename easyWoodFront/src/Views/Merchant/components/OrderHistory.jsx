@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getMerchantOrders } from "../../api/merchantOrders";
+import MerchantOrderService from "../../../services/MerchantOrderService";
 
 const OrderHistory = ({ onViewOrder }) => {
   const [orders, setOrders] = useState([]);
@@ -10,8 +10,7 @@ const OrderHistory = ({ onViewOrder }) => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const data = await getMerchantOrders();
-        // Filtrar apenas pedidos completos ou cancelados
+        const data = await MerchantOrderService.getOrders();
         const completedOrders = data.filter((order) =>
           ["completed", "cancelled"].includes(order.status)
         );
@@ -84,7 +83,7 @@ const OrderHistory = ({ onViewOrder }) => {
             <div key={order.id} className="table-row">
               <div className="service-cell">{order.service}</div>
               <div>{order.client?.name || "N/A"}</div>
-              <div>R$ {order.price.toFixed(2)}</div>
+              {/* <div>R$ {order.price.toFixed(2)}</div> */}
               <div>
                 <span className={`status-badge ${order.status}`}>
                   {order.status === "completed" && "Completo"}

@@ -1,29 +1,32 @@
-import { useState } from "react";
-import { BrowserRouter as Router, Routes, Route, Outlet } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Outlet,
+} from "react-router-dom";
 import { Login } from "./Views/Login/Login";
-import { ClientDashboard } from "./Views/ClientDashboard/ClientDashboard.jsx";
-import { MerchantDashboard } from "./Views/MerchantDashboard/MerchantDashboard.jsx";
+import { ClientDashboard } from "./Views/Client/ClientDashboard.jsx";
+import { MerchantDashboard } from "./Views/Merchant/MerchantDashboard.jsx";
 import { ProtectedRoutes } from "./components/ProtectedRoutes.jsx";
-import ActiveOrders from "./Views/Client/ActiveOrders";
-import OrderHistory from "./Views/Client/OrderHistory";
-import OrderDetail from "./Views/Client/OrderDetail";
+import ActiveOrders from "./Views/Client/components/ActiveOrders.jsx";
+import OrderHistory from "./Views/Client/components/OrderHistory.jsx";
+import OrderDetail from "./Views/Client/components/OrderDetail.jsx";
+import MerchantActiveOrders from "./Views/Merchant/components/ActiveOrders.jsx";
+import MerchantOrderHistory from "./Views/Merchant/components/OrderHistory.jsx";
+import MerchantOrderDetail from "./Views/Merchant/components/OrderDetails.jsx";
+import CreateOrder from "./Views/Merchant/components/CreateOrder.jsx";
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
     <Router>
       <Routes>
-        {/* Rota padrão continua sendo o Login */}
         <Route path="/" element={<Login />} />
-        
-        {/* Rotas do Cliente */}
+
         <Route
           path="/dashboard-cliente"
           element={
             <ProtectedRoutes allowedRoles={["client"]}>
               <ClientDashboard />
-              <Outlet /> {/* Adicione isto para renderizar as sub-rotas */}
             </ProtectedRoutes>
           }
         >
@@ -33,7 +36,6 @@ function App() {
           <Route path="pedidos/:id" element={<OrderDetail />} />
         </Route>
 
-        {/* Rota protegida para prestador */}
         <Route
           path="/dashboard-prestador"
           element={
@@ -41,9 +43,14 @@ function App() {
               <MerchantDashboard />
             </ProtectedRoutes>
           }
-        />
+        >
+          <Route index element={<MerchantActiveOrders />} />
+          <Route path="pedidos" element={<MerchantActiveOrders />} />
+          <Route path="historico" element={<MerchantOrderHistory />} />
+          <Route path="pedidos/:id" element={<MerchantOrderDetail />} />
+          <Route path="criar-pedido" element={<CreateOrder />} />
+        </Route>
 
-        {/* Rota para páginas não encontradas (opcional) */}
         <Route path="*" element={<div>Página não encontrada</div>} />
       </Routes>
     </Router>

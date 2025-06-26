@@ -1,13 +1,13 @@
 /* src/pages/OrderDetail.css */
 .order-detail {
-  --detail-accent: #493117;
+  --detail-accent: var(--primary);
   --detail-accent-light: rgba(123, 79, 37, 0.08);
-  --detail-bg: rgba(255, 255, 255, 0.96);
-  --detail-shadow: 0 12px 24px -12px rgba(73, 49, 23, 0.2);
-  --detail-border: 1px solid rgba(73, 49, 23, 0.08);
-  --detail-radius: 16px;
-  --detail-spacing: 2.5rem;
-  --detail-transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  --detail-bg: rgba(255, 255, 255, 0.98);
+  --detail-shadow: 0 12px 30px -15px rgba(73, 49, 23, 0.15);
+  --detail-border: 1px solid rgba(73, 49, 23, 0.1);
+  --detail-radius: var(--radius-xl);
+  --detail-spacing: var(--space-xl);
+  --detail-transition: var(--transition);
 
   max-width: 900px;
   margin: 0 auto;
@@ -15,11 +15,25 @@
   background: var(--detail-bg);
   border-radius: var(--detail-radius);
   box-shadow: var(--detail-shadow);
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(6px);
   border: var(--detail-border);
   transform: translateY(0);
   opacity: 0;
   animation: fadeInUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  position: relative;
+  overflow: hidden;
+}
+
+.order-detail::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at 90% 10%, rgba(123, 79, 37, 0.03) 0%, transparent 40%);
+  pointer-events: none;
+  z-index: 0;
 }
 
 @keyframes fadeInUp {
@@ -36,19 +50,21 @@
 .btn-back {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1.5rem;
+  gap: var(--space-xs);
+  padding: 0.8rem 1.8rem;
   background: transparent;
   color: var(--detail-accent);
   border: 1px solid var(--detail-accent);
   border-radius: 50px;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
   transition: var(--detail-transition);
-  margin-bottom: 2rem;
+  margin-bottom: var(--space-lg);
   position: relative;
   overflow: hidden;
   z-index: 1;
+  font-family: var(--font-body);
+  box-shadow: var(--shadow-sm);
 }
 
 .btn-back::before {
@@ -68,18 +84,25 @@
 }
 
 .btn-back:hover {
-  color: white;
+  color: var(--text-contrast);
   transform: translateX(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+.btn-back:active {
+  transform: translateX(-2px);
 }
 
 .order-detail h2 {
-  font-family: "Cormorant Garamond", serif;
+  font-family: var(--font-title);
   font-size: 2.25rem;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--detail-accent);
-  margin-bottom: 1.5rem;
+  margin-bottom: var(--space-md);
   position: relative;
-  padding-bottom: 0.75rem;
+  padding-bottom: var(--space-sm);
+  line-height: 1.2;
+  z-index: 2;
 }
 
 .order-detail h2::after {
@@ -87,7 +110,7 @@
   position: absolute;
   bottom: 0;
   left: 0;
-  width: 60px;
+  width: 80px;
   height: 3px;
   background: linear-gradient(90deg, var(--detail-accent), rgba(123, 79, 37, 0.3));
   border-radius: 3px;
@@ -96,14 +119,15 @@
 .order-info {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1.5rem;
-  margin-bottom: 3rem;
-  padding: 1.5rem;
+  gap: var(--space-md);
+  margin-bottom: var(--space-xl);
+  padding: var(--space-lg);
   background: var(--detail-accent-light);
-  border-radius: var(--detail-radius);
+  border-radius: var(--radius-lg);
   border: var(--detail-border);
   position: relative;
   overflow: hidden;
+  z-index: 2;
 }
 
 .order-info::before {
@@ -120,8 +144,8 @@
 .order-info p {
   display: flex;
   flex-direction: column;
-  font-size: 0.95rem;
-  line-height: 1.6;
+  font-size: 1rem;
+  line-height: 1.7;
   position: relative;
   z-index: 1;
 }
@@ -129,36 +153,42 @@
 .order-info strong {
   font-weight: 600;
   color: var(--detail-accent);
-  margin-bottom: 0.25rem;
+  margin-bottom: var(--space-xxs);
   font-size: 1.1rem;
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: var(--space-xs);
+  letter-spacing: 0.3px;
 }
 
 .order-info strong::before {
   content: '•';
   color: var(--detail-accent);
+  font-size: 1.5rem;
+  line-height: 0;
 }
 
 .attachments-section {
-  margin-top: 2rem;
+  margin-top: var(--space-lg);
   position: relative;
+  z-index: 2;
 }
 
 .attachments-section h3 {
-  font-family: "Lora", serif;
-  font-size: 1.5rem;
+  font-family: var(--font-subtitle);
+  font-size: 1.6rem;
+  font-weight: 600;
   color: var(--detail-accent);
-  margin-bottom: 1.5rem;
+  margin-bottom: var(--space-md);
   position: relative;
   display: inline-block;
+  padding-bottom: var(--space-xs);
 }
 
 .attachments-section h3::after {
   content: '';
   position: absolute;
-  bottom: -8px;
+  bottom: 0;
   left: 0;
   width: 100%;
   height: 2px;
@@ -169,7 +199,7 @@
   list-style: none;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1rem;
+  gap: var(--space-md);
 }
 
 .attachments-list li {
@@ -181,18 +211,20 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1rem 1.5rem;
-  background: white;
+  padding: var(--space-md) var(--space-lg);
+  background: var(--white);
   border: var(--detail-border);
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   color: var(--detail-accent);
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
   transition: var(--detail-transition);
-  box-shadow: 0 4px 12px -4px rgba(73, 49, 23, 0.1);
+  box-shadow: var(--shadow-sm);
   position: relative;
   overflow: hidden;
   z-index: 1;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
 }
 
 .btn-download::before {
@@ -202,7 +234,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, rgba(123, 79, 37, 0.1), transparent);
+  background: linear-gradient(90deg, var(--primary-ultralight), transparent);
   transform: translateX(-100%);
   transition: var(--detail-transition);
   z-index: -1;
@@ -210,7 +242,8 @@
 
 .btn-download:hover {
   transform: translateY(-3px);
-  box-shadow: 0 8px 16px -4px rgba(73, 49, 23, 0.15);
+  box-shadow: var(--shadow-md);
+  border-color: rgba(73, 49, 23, 0.15);
 }
 
 .btn-download:hover::before {
@@ -221,21 +254,47 @@
   content: '↓';
   font-size: 1.2rem;
   transition: var(--detail-transition);
+  font-weight: bold;
 }
 
 .btn-download:hover::after {
-  transform: translateY(2px);
+  transform: translateY(3px);
+}
+
+/* Estado vazio */
+.empty-attachments {
+  text-align: center;
+  padding: var(--space-xl);
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: var(--radius-lg);
+  border: 1px dashed rgba(73, 49, 23, 0.3);
+  font-style: italic;
+  color: var(--text-medium);
+  margin-top: var(--space-sm);
+}
+
+/* Mensagem de erro */
+.error-message {
+  background: rgba(231, 76, 60, 0.05);
+  color: #e74c3c;
+  padding: var(--space-md);
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(231, 76, 60, 0.1);
+  text-align: center;
+  margin-top: var(--space-md);
+  font-weight: 500;
 }
 
 /* Responsividade */
 @media (max-width: 768px) {
   .order-detail {
-    padding: 1.5rem;
-    margin: 0 1rem;
+    padding: var(--space-lg);
+    margin: 0;
   }
   
   .order-info {
     grid-template-columns: 1fr;
+    padding: var(--space-md);
   }
   
   .attachments-list {
@@ -243,38 +302,28 @@
   }
   
   .order-detail h2 {
-    font-size: 1.8rem;
+    font-size: 1.9rem;
+  }
+  
+  .btn-back {
+    padding: 0.7rem 1.5rem;
   }
 }
 
-/* Estado vazio */
-.empty-state {
-  text-align: center;
-  padding: 3rem;
-  background: rgba(255, 255, 255, 0.6);
-  border-radius: var(--detail-radius);
-  border: 1px dashed rgba(73, 49, 23, 0.3);
-}
-
-.empty-state svg {
-  font-size: 3rem;
-  color: var(--detail-accent);
-  opacity: 0.5;
-  margin-bottom: 1rem;
-}
-
-.empty-state p {
-  color: var(--detail-accent);
-  font-size: 1.1rem;
-}
-
-/* Mensagem de erro */
-.error-message {
-  background: rgba(231, 76, 60, 0.05);
-  color: #e74c3c;
-  padding: 1.5rem;
-  border-radius: var(--detail-radius);
-  border: 1px solid rgba(231, 76, 60, 0.1);
-  text-align: center;
-  margin-top: 2rem;
+@media (max-width: 480px) {
+  .order-detail {
+    padding: var(--space-md);
+  }
+  
+  .order-detail h2 {
+    font-size: 1.7rem;
+  }
+  
+  .attachments-section h3 {
+    font-size: 1.4rem;
+  }
+  
+  .btn-download {
+    padding: var(--space-sm) var(--space-md);
+  }
 }

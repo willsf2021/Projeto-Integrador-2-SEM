@@ -1,7 +1,8 @@
+// src/components/Merchant/CreateOrder.jsx
 import React, { useState } from "react";
-import { createMerchantOrder } from "../../api/merchantOrders";
+import MerchantOrderService from "../../../services/MerchantOrderService";
 
-const CreateOrder = ({ onCreated }) => {
+const MerchantCreateOrder = ({ onCreated }) => {
   const [formData, setFormData] = useState({
     client_id: "",
     service: "",
@@ -9,8 +10,10 @@ const CreateOrder = ({ onCreated }) => {
     price: "",
     due_date: "",
   });
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
   const [clients] = useState([
     { id: 1, name: "Cliente A" },
     { id: 2, name: "Cliente B" },
@@ -26,11 +29,19 @@ const CreateOrder = ({ onCreated }) => {
     e.preventDefault();
     try {
       setLoading(true);
-      const newOrder = await createMerchantOrder({
+      const newOrder = await MerchantOrderService.createOrder({
         ...formData,
         price: parseFloat(formData.price),
       });
-      onCreated(newOrder);
+      onCreated(newOrder); // Callback externo para atualizar a lista, por exemplo
+      // Resetar o formulário
+      setFormData({
+        client_id: "",
+        service: "",
+        description: "",
+        price: "",
+        due_date: "",
+      });
     } catch (err) {
       setError("Erro ao criar pedido: " + err.message);
     } finally {
@@ -124,4 +135,4 @@ const CreateOrder = ({ onCreated }) => {
   );
 };
 
-export default CreateOrder;
+export default MerchantCreateOrder;
