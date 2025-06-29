@@ -15,24 +15,27 @@
 }
 
 .filter-btn {
-  padding: 0.5rem 1rem;
+  padding: 0.4rem 1rem;
   background: var(--neutral-light);
-  border: none;
+  border: 1px solid #ccc;
   border-radius: var(--radius-sm);
   cursor: pointer;
   transition: var(--transition);
+  font-weight: 500;
+  color: var(--text-dark);
 }
 
 .filter-btn.active {
   background-color: var(--primary);
   color: white;
+  border-color: var(--primary);
 }
 
 .orders-table {
   display: flex;
   flex-direction: column;
   margin-top: var(--space-md);
-  border: 1px solid #eee;
+  border: 1px solid #e5e5e5;
   border-radius: var(--radius-md);
   overflow: hidden;
 }
@@ -43,38 +46,69 @@
   grid-template-columns: 2fr 1.5fr 1fr 1fr 1fr;
   gap: var(--space-md);
   padding: var(--space-sm) var(--space-md);
+  font-size: 0.9rem;
+  align-items: center;
 }
 
 .table-header {
   background-color: var(--primary);
   color: white;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .table-row {
   border-bottom: 1px solid #f0f0f0;
+  background-color: white;
 }
 
 .table-row:nth-child(even) {
-  background-color: #f9f9f9;
+  background-color: #fafafa;
 }
 
 .service-cell {
   font-weight: 500;
+  color: var(--primary);
 }
 
 .status-badge.completed {
   background-color: #c8e6c9;
-  color: #388e3c;
-  padding: 0.25rem 0.5rem;
+  color: #2e7d32;
+  padding: 0.25rem 0.6rem;
   border-radius: var(--radius-sm);
-  font-size: 0.8rem;
+  font-size: 0.75rem;
+  font-weight: 500;
 }
 
 .status-badge.cancelled {
   background-color: #ffcdd2;
-  color: #d32f2f;
-  padding: 0.25rem 0.5rem;
+  color: #c62828;
+  padding: 0.25rem 0.6rem;
   border-radius: var(--radius-sm);
-  font-size: 0.8rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+.btn-edit {
+  background-color: #e0e7ff;
+  color: #4f46e5;
+  border: 1px solid #c7d2fe;
+}
+
+.btn-edit:hover {
+  background-color: #c7d2fe;
+}
+
+/* No OrderHistory.css */
+.edit-btn {
+  background: #e0e7ff;
+  color: #4f46e5;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 0.4rem 0.8rem;
+  margin-left: 0.5rem;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.edit-btn:hover {
+  background: #c7d2fe;
 }

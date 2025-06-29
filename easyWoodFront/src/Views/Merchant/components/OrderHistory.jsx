@@ -1,22 +1,41 @@
 import React, { useState, useEffect } from "react";
 import MerchantOrderService from "../../../services/MerchantOrderService";
+import OrderEditModal from "../../../shared/components/OrderEditModal";
+import "./OrderHistory.css";
 
 const OrderHistory = ({ onViewOrder }) => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [filter, setFilter] = useState("all");
+  const [editingOrder, setEditingOrder] = useState(null);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+
+  const handleEditOrder = (order) => {
+    setEditingOrder(order);
+    setIsEditModalOpen(true);
+  };
+
+  const handleOrderUpdated = (updatedOrder) => {
+    setOrders((prev) =>
+      prev.map((order) => (order.id === updatedOrder.id ? updatedOrder : order))
+    );
+  };
 
   useEffect(() => {
     const fetchOrders = async () => {
       try {
         const data = await MerchantOrderService.getOrders();
+        console.log("Dados da API:", data);
+
         const completedOrders = data.filter((order) =>
           ["completed", "cancelled"].includes(order.status)
         );
+
         setOrders(completedOrders);
       } catch (err) {
-        setError(err.message);
+        console.error("Erro ao buscar pedidos:", err);
+        setError("Erro ao carregar histórico de pedidos");
       } finally {
         setLoading(false);
       }
@@ -30,76 +49,129 @@ const OrderHistory = ({ onViewOrder }) => {
       ? orders
       : orders.filter((order) => order.status === filter);
 
+  const formatCurrency = (value) => {
+    return new Intl.NumberFormat("pt-BR", {
+      style: "currency",
+      currency: "BRL",
+    }).format(value);
+  };
+
+  const formatDate = (dateString) => {
+    if (!dateString) return "N/A";
+
+    const options = { day: "2-digit", month: "2-digit", year: "numeric" };
+    return new Date(dateString).toLocaleDateString("pt-BR", options);
+  };
+
   if (loading) {
-    return <div className="loading">Carregando histórico...</div>;
+    return (
+      <div className="loading-container">
+        <div className="loading-spinner"></div>
+        <p>Carregando histórico de pedidos...</p>
+      </div>
+    );
   }
 
   if (error) {
-    return <div className="error">{error}</div>;
+    return <div className="error-message">{error}</div>;
   }
 
   return (
-    <div className="order-history">
+    <div className="order-history-container">
       <div className="section-header">
         <h2>Histórico de Pedidos</h2>
 
-        <div className="filters">
-          <button
-            className={`filter-btn ${filter === "all" ? "active" : ""}`}
-            onClick={() => setFilter("all")}
-          >
-            Todos
-          </button>
-          <button
-            className={`filter-btn ${filter === "completed" ? "active" : ""}`}
-            onClick={() => setFilter("completed")}
-          >
-            Completos
-          </button>
-          <button
-            className={`filter-btn ${filter === "cancelled" ? "active" : ""}`}
-            onClick={() => setFilter("cancelled")}
-          >
-            Cancelados
-          </button>
+        <div className="filters-container">
+          <div className="filter-buttons">
+            <button
+              className={`filter-btn ${filter === "all" ? "active" : ""}`}
+              onClick={() => setFilter("all")}
+            >
+              Todos
+            </button>
+            <button
+              className={`filter-btn ${filter === "completed" ? "active" : ""}`}
+              onClick={() => setFilter("completed")}
+            >
+              Completos
+            </button>
+            <button
+              className={`filter-btn ${filter === "cancelled" ? "active" : ""}`}
+              onClick={() => setFilter("cancelled")}
+            >
+              Cancelados
+            </button>
+          </div>
+
+          <div className="results-count">
+            {filteredOrders.length}{" "}
+            {filteredOrders.length === 1 ? "pedido" : "pedidos"} encontrados
+          </div>
         </div>
       </div>
 
       {filteredOrders.length === 0 ? (
         <div className="empty-state">
-          <p>Nenhum pedido encontrado</p>
+          <div className="empty-icon">📋</div>
+          <h3>Nenhum pedido encontrado</h3>
+          <p>Não encontramos pedidos no seu histórico.</p>
         </div>
       ) : (
-        <div className="orders-table">
-          <div className="table-header">
-            <div>Serviço</div>
-            <div>Cliente</div>
-            <div>Valor</div>
-            <div>Status</div>
-            <div>Ações</div>
+        <div className="orders-table-container">
+          <div className="table-responsive">
+            <table className="orders-table">
+              <thead>
+                <tr>
+                  <th>Serviço</th>
+                  <th>Cliente</th>
+                  <th>Data</th>
+                  <th>Valor</th>
+                  <th>Status</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredOrders.map((order) => (
+                  <tr key={order.id}>
+                    <td className="service-cell">{order.service || "N/A"}</td>
+                    <td>{order.client?.name || "N/A"}</td>
+                    <td>{formatDate(order.createdAt || order.date)}</td>
+                    <td className="price-cell">
+                      {order.price ? formatCurrency(order.price) : "N/A"}
+                    </td>
+                    <td>
+                      <span className={`status-badge ${order.status}`}>
+                        {order.status === "completed" && "Completo"}
+                        {order.status === "cancelled" && "Cancelado"}
+                      </span>
+                    </td>
+                    <td>
+                      <button
+                        className="view-details-btn"
+                        onClick={() => onViewOrder(order)}
+                      >
+                        Ver Detalhes
+                      </button>
+                      <button
+                        className="edit-btn"
+                        onClick={() => handleEditOrder(order)}
+                      >
+                        Editar
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+                {editingOrder && (
+                  <OrderEditModal
+                    order={editingOrder}
+                    isOpen={isEditModalOpen}
+                    onClose={() => setIsEditModalOpen(false)}
+                    onUpdate={handleOrderUpdated}
+                  />
+                )}
+              </tbody>
+            </table>
           </div>
-
-          {filteredOrders.map((order) => (
-            <div key={order.id} className="table-row">
-              <div className="service-cell">{order.service}</div>
-              <div>{order.client?.name || "N/A"}</div>
-              {/* <div>R$ {order.price.toFixed(2)}</div> */}
-              <div>
-                <span className={`status-badge ${order.status}`}>
-                  {order.status === "completed" && "Completo"}
-                  {order.status === "cancelled" && "Cancelado"}
-                </span>
-              </div>
-              <div>
-                <button
-                  className="btn btn-primary"
-                  onClick={() => onViewOrder(order)}
-                >
-                  Ver Detalhes
-                </button>
-              </div>
-            </div>
-          ))}
         </div>
       )}
     </div>

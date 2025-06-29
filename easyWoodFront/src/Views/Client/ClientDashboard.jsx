@@ -38,7 +38,7 @@ export const ClientDashboard = () => {
     let email = localStorage.getItem("email");
     let type = localStorage.getItem("type");
 
-    setUserInfo((prevValue) => ({
+    setUserInfo(() => ({
       name: username,
       email: email,
       type: type,

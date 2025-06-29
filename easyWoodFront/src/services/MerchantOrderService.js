@@ -11,6 +11,15 @@ class MerchantOrderService {
     }
   }
 
+  async getOrderById(orderId) {
+    try {
+      const response = await api.get(`/orders/${orderId}`);
+      return response.data;
+    } catch (error) {
+      throw new Error("Erro ao buscar pedido: " + error.message);
+    }
+  }
+
   async createOrder(orderData) {
     try {
       const response = await api.post("/orders", orderData);

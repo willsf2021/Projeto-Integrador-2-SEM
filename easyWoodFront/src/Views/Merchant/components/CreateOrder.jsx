@@ -1,8 +1,9 @@
 // src/components/Merchant/CreateOrder.jsx
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import MerchantOrderService from "../../../services/MerchantOrderService";
+import UserInfo from "../../../services/UserService";
 
-const MerchantCreateOrder = ({ onCreated }) => {
+const MerchantCreateOrder = () => {
   const [formData, setFormData] = useState({
     client_id: "",
     service: "",
@@ -14,11 +15,7 @@ const MerchantCreateOrder = ({ onCreated }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const [clients] = useState([
-    { id: 1, name: "Cliente A" },
-    { id: 2, name: "Cliente B" },
-    { id: 3, name: "Cliente C" },
-  ]);
+  const [clients, setClients] = useState([]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -33,8 +30,7 @@ const MerchantCreateOrder = ({ onCreated }) => {
         ...formData,
         price: parseFloat(formData.price),
       });
-      onCreated(newOrder); // Callback externo para atualizar a lista, por exemplo
-      // Resetar o formulário
+
       setFormData({
         client_id: "",
         service: "",
@@ -42,12 +38,23 @@ const MerchantCreateOrder = ({ onCreated }) => {
         price: "",
         due_date: "",
       });
+      alert("Pedido registrado com sucesso!");
     } catch (err) {
       setError("Erro ao criar pedido: " + err.message);
     } finally {
       setLoading(false);
     }
   };
+
+  const fetchUsers = async () => {
+    const usersClass = new UserInfo();
+    const response = await usersClass.getUsers();
+    setClients(response.data);
+  };
+
+  useEffect(() => {
+    fetchUsers();
+  }, []);
 
   return (
     <div className="create-order">

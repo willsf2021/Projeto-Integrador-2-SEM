@@ -1,12 +1,29 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import MerchantOrderService from "../../../services/MerchantOrderService";
+import OrderEditModal from "../../../shared/components/OrderEditModal";
+import "./ActiveOrders.css";
 
 const MerchantActiveOrders = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [editingOrder, setEditingOrder] = useState(null);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const navigate = useNavigate();
+
+  // Função para abrir o modal de edição
+  const handleEditOrder = (order) => {
+    setEditingOrder(order);
+    setIsEditModalOpen(true);
+  };
+
+  // Função para atualizar a lista após edição
+  const handleOrderUpdated = (updatedOrder) => {
+    setOrders((prev) =>
+      prev.map((order) => (order.id === updatedOrder.id ? updatedOrder : order))
+    );
+  };
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -64,21 +81,37 @@ const MerchantActiveOrders = () => {
                 </p>
                 <p>
                   <strong>Prazo:</strong>{" "}
-                  {order.due_date || "Sem prazo definido"}
+                  {order.due_date
+                    ? new Date(order.due_date).toLocaleDateString("pt-BR")
+                    : "Sem prazo definido"}
                 </p>
               </div>
 
               <div className="order-actions">
                 <button
-                  className="btn btn-primary"
+                  className="btn btn-outline"
                   onClick={() => handleViewOrder(order.id)}
                 >
                   Ver Detalhes
+                </button>
+                <button
+                  className="btn btn-edit"
+                  onClick={() => handleEditOrder(order)}
+                >
+                  Editar
                 </button>
               </div>
             </li>
           ))}
         </ul>
+      )}
+      {editingOrder && (
+        <OrderEditModal
+          order={editingOrder}
+          isOpen={isEditModalOpen}
+          onClose={() => setIsEditModalOpen(false)}
+          onUpdate={handleOrderUpdated}
+        />
       )}
     </div>
   );
