@@ -29,6 +29,13 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::apiResource('orders', OrderController::class);
         Route::middleware('merchant')->get('/users', [UserController::class, 'listClients']);
 
+        Route::apiResource('materials', \App\Http\Controllers\Api\Merchant\MaterialController::class);
+
+        Route::prefix('materials/{material}')->group(function () {
+            Route::post('/add-stock', [\App\Http\Controllers\Api\Merchant\MaterialController::class, 'addStock']);
+            Route::post('/reduce-stock', [\App\Http\Controllers\Api\Merchant\MaterialController::class, 'reduceStock']);
+        });
+
         Route::prefix('orders/{order}')->group(function () {
 
             Route::get(
