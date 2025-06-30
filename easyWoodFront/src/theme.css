@@ -1,0 +1,67 @@
+:root {
+  /* Cores específicas para cliente */
+  --client-primary: #2563eb;
+  --client-primary-light: #dbeafe;
+  --client-primary-dark: #1d4ed8;
+  
+  /* Cores específicas para prestador */
+  --merchant-primary: #059669;
+  --merchant-primary-light: #d1fae5;
+  --merchant-primary-dark: #047857;
+}
+
+.client-dashboard {
+  --primary: var(--client-primary);
+  --primary-light: var(--client-primary-light);
+  --primary-dark: var(--client-primary-dark);
+}
+
+.merchant-dashboard {
+  --primary: var(--merchant-primary);
+  --primary-light: var(--merchant-primary-light);
+  --primary-dark: var(--merchant-primary-dark);
+}
+
+/* Classes utilitárias específicas */
+.badge {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+}
+
+.badge-pending {
+  background-color: #fef3c7;
+  color: #92400e;
+}
+
+.badge-in_progress {
+  background-color: #dbeafe;
+  color: #1e40af;
+}
+
+.badge-completed {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+.badge-cancelled {
+  background-color: #fee2e2;
+  color: #b91c1c;
+}
+
+.badge-pending_payment {
+  background-color: #ffedd5;
+  color: #9a3412;
+}
+
+.badge-paid {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+.badge-overdue {
+  background-color: #fee2e2;
+  color: #b91c1c;
+}
