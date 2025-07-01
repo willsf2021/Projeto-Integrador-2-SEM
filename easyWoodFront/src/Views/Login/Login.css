@@ -137,11 +137,14 @@ body {
   border: 1px solid var(--wood-medium);
   border-radius: 2px;
   background: hsla(39, 23%, 24%, 0.103);
-  color: var(--text-light);
   font-family: var(--font-form);
   font-size: 1rem;
   font-weight: 400;
   transition: all 0.3s ease;
+}
+
+.login {
+  color: white !important;
 }
 
 .form-input::placeholder {

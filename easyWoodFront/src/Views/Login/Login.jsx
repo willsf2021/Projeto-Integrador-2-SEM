@@ -99,7 +99,7 @@ export const Login = () => {
                         type="email"
                         name="email"
                         placeholder="E-mail"
-                        className="form-input"
+                        className="form-input login"
                       />
                     </div>
                     <ErrorMessage
@@ -115,7 +115,7 @@ export const Login = () => {
                         type="password"
                         name="password"
                         placeholder="Senha"
-                        className="form-input"
+                        className="form-input login"
                       />
                     </div>
                     <ErrorMessage

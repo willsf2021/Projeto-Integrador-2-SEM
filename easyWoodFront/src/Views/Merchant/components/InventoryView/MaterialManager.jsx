@@ -32,9 +32,8 @@ const MaterialManager = () => {
     fetchMaterials();
     fetchLowStockAlerts();
     const interval = setInterval(fetchLowStockAlerts, 5 * 60 * 1000);
-
     return () => clearInterval(interval);
-  }, []);
+  });
 
   const fetchMaterials = async () => {
     try {
@@ -44,10 +43,6 @@ const MaterialManager = () => {
       alert(err.message);
     }
   };
-
-  useEffect(() => {
-    fetchMaterials();
-  }, []);
 
   const handleCreateMaterial = async () => {
     try {
