@@ -10,6 +10,7 @@ class Material extends Model
     protected $fillable = [
         'name',
         'description',
+        'minimum_quantity',
         'price',
         'quantity',
         'unit',
@@ -19,5 +20,9 @@ class Material extends Model
     public function merchant(): BelongsTo
     {
         return $this->belongsTo(User::class, 'merchant_id');
+    }
+    public function lowStockAlerts()
+    {
+        return $this->hasMany(LowStockAlert::class);
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\Client\ClientOrderController;
+use App\Http\Controllers\Api\Merchant\LowStockAlertController;
 use App\Http\Controllers\Api\Merchant\OrderController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -30,6 +31,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::middleware('merchant')->get('/users', [UserController::class, 'listClients']);
 
         Route::apiResource('materials', \App\Http\Controllers\Api\Merchant\MaterialController::class);
+        Route::get('/low-stock-alerts', [LowStockAlertController::class, 'index']);
 
         Route::prefix('materials/{material}')->group(function () {
             Route::post('/add-stock', [\App\Http\Controllers\Api\Merchant\MaterialController::class, 'addStock']);

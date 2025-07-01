@@ -10,27 +10,46 @@ use Illuminate\Support\Facades\Auth;
 class MaterialController extends Controller
 {
     // Listar todos os materiais
-    public function index()
+    public function index(Request $request)
     {
-        $materials = Material::where('merchant_id', Auth::id())->get();
+        $query = Material::where('merchant_id', Auth::id());
+
+        if ($request->filled('name')) {
+            $query->where('name', 'like', '%' . $request->name . '%');
+        }
+
+        if ($request->filled('unit')) {
+            $query->where('unit', $request->unit);
+        }
+
+        if ($request->filled('minPrice')) {
+            $query->where('price', '>=', $request->minPrice);
+        }
+
+        if ($request->filled('maxPrice')) {
+            $query->where('price', '<=', $request->maxPrice);
+        }
+
+        if ($request->filled('minQuantity')) {
+            $query->where('quantity', '>=', $request->minQuantity);
+        }
+
+        $materials = $query->get();
+
         return response()->json($materials);
     }
+
 
     // Criar novo material (ou lista de materiais)
     public function store(Request $request)
     {
-        // Verifica se é um array de materiais
-        if (is_array($request->all())) {
-            return $this->storeMany($request);
-        }
-
-        // Processamento para um único material
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
             'price' => 'required|numeric|min:0',
             'quantity' => 'required|integer|min:0',
             'unit' => 'required|string|max:10',
+            'minimum_quantity' => 'required|integer|min:0',
         ]);
 
         $material = Material::create([
@@ -41,60 +60,6 @@ class MaterialController extends Controller
         return response()->json($material, 201);
     }
 
-    // Método privado para criar múltiplos materiais
-    private function storeMany(Request $request)
-    {
-        $materials = [];
-        $errors = [];
-
-        foreach ($request->all() as $index => $item) {
-            try {
-                $validator = validator($item, [
-                    'name' => 'required|string|max:255',
-                    'description' => 'nullable|string',
-                    'price' => 'required|numeric|min:0',
-                    'quantity' => 'required|integer|min:0',
-                    'unit' => 'required|string|max:10',
-                ]);
-
-                if ($validator->fails()) {
-                    $errors[] = [
-                        'index' => $index,
-                        'errors' => $validator->errors(),
-                        'data' => $item
-                    ];
-                    continue;
-                }
-
-                $materials[] = Material::create([
-                    'merchant_id' => Auth::id(),
-                    'name' => $item['name'],
-                    'description' => $item['description'] ?? null,
-                    'price' => $item['price'],
-                    'quantity' => $item['quantity'],
-                    'unit' => $item['unit']
-                ]);
-            } catch (\Exception $e) {
-                $errors[] = [
-                    'index' => $index,
-                    'error' => $e->getMessage(),
-                    'data' => $item
-                ];
-            }
-        }
-
-        $response = [
-            'created_count' => count($materials),
-            'materials' => $materials,
-        ];
-
-        if (!empty($errors)) {
-            $response['errors'] = $errors;
-            return response()->json($response, 207); // 207 = Multi-Status
-        }
-
-        return response()->json($response, 201);
-    }
 
     // Mostrar material específico
     public function show(Material $material)

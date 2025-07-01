@@ -125,13 +125,6 @@ export const Login = () => {
                     />
                   </div>
 
-                  <div className="form-options">
-                    <label className="remember-me">
-                      <Field type="checkbox" name="remember" />
-                      <span>Lembrar-me</span>
-                    </label>
-                  </div>
-
                   <motion.div
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}

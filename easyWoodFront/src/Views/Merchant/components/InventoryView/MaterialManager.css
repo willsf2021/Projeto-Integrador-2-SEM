@@ -1,0 +1,314 @@
+/* Variáveis de cores e estilos */
+:root {
+  --primary-50: #f0f9ff;
+  --primary-100: #e0f2fe;
+  --primary-200: #bae6fd;
+  --primary-700: #0369a1;
+  --wood-50: #f8f6f2;
+  --wood-100: #f0e9e0;
+  --wood-600: #8a6d46;
+  --wood-800: #5d432c;
+  --gray-100: #f3f4f6;
+  --gray-200: #e5e7eb;
+  --gray-300: #d1d5db;
+  --gray-500: #6b7280;
+  --gray-700: #374151;
+  --red-500: #ef4444;
+  --green-500: #10b981;
+  --blue-500: #3b82f6;
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+
+  --radius-sm: 0.125rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
+
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+
+  --transition-default: all 0.2s ease;
+}
+
+/* Container principal */
+.material-manager {
+  padding: var(--space-6);
+  background-color: white;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}
+
+.material-manager h2 {
+  color: var(--wood-800);
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: var(--space-6);
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--gray-200);
+}
+
+/* Filtros */
+.filters-container {
+  display: flex;
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+  flex-wrap: wrap;
+  align-items: flex-end;
+}
+
+.filter-group {
+  flex: 1;
+  min-width: 200px;
+}
+
+.filter-group label {
+  display: block;
+  margin-bottom: var(--space-2);
+  font-size: 0.875rem;
+  color: var(--gray-700);
+  font-weight: 500;
+}
+
+.filter-input {
+  width: 100%;
+  padding: var(--space-3);
+  border: 1px solid var(--gray-300);
+  border-radius: var(--radius-md);
+  font-size: 1rem;
+  color: black;
+}
+
+.filter-input:focus {
+  outline: none;
+  border-color: var(--wood-600);
+  box-shadow: 0 0 0 3px rgba(90, 103, 73, 0.1);
+}
+
+.filter-button {
+  background-color: var(--wood-800);
+  color: white;
+  border: none;
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-5);
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition-default);
+  height: fit-content;
+}
+
+.filter-button:hover {
+  background-color: var(--wood-600);
+}
+
+/* Formulário de novo material */
+.new-material-section {
+  background-color: var(--gray-100);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  margin-bottom: var(--space-6);
+}
+
+.new-material-section h4 {
+  color: var(--wood-800);
+  font-size: 1.125rem;
+  margin-bottom: var(--space-4);
+}
+
+.form-row {
+  display: flex;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  margin-bottom: var(--space-4);
+}
+
+.form-group {
+  flex: 1;
+  min-width: 200px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: var(--space-2);
+  font-size: 0.875rem;
+  color: var(--gray-700);
+  font-weight: 500;
+}
+
+.form-input {
+  width: 100%;
+  padding: var(--space-3);
+  border: 1px solid var(--gray-300);
+  border-radius: var(--radius-md);
+  font-size: 1rem;
+  transition: var(--transition-default);
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: var(--wood-600);
+  box-shadow: 0 0 0 3px rgba(90, 103, 73, 0.1);
+}
+
+.create-button {
+  background-color: var(--green-500);
+  color: white;
+  border: none;
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-5);
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition-default);
+}
+
+.create-button:hover {
+  background-color: #059669;
+}
+
+/* Tabela de materiais */
+.materials-container h4 {
+  color: var(--wood-800);
+  font-size: 1.125rem;
+  margin-bottom: var(--space-4);
+}
+
+.materials-table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.materials-table thead {
+  background-color: var(--wood-800);
+  color: white;
+}
+
+.materials-table th {
+  padding: var(--space-3) var(--space-4);
+  text-align: left;
+  font-weight: 600;
+}
+
+.materials-table td {
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--gray-200);
+  background-color: white;
+}
+
+.materials-table tbody tr:hover {
+  background-color: var(--primary-50);
+}
+
+/* Botões de ação */
+.actions-cell {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.action-button {
+  padding: var(--space-2) var(--space-3);
+  border: none;
+  border-radius: var(--radius-md);
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition-default);
+  font-size: 0.875rem;
+}
+
+.add-button {
+  background-color: var(--blue-500);
+  color: white;
+}
+
+.add-button:hover {
+  background-color: #2563eb;
+}
+
+.reduce-button {
+  background-color: var(--gray-500);
+  color: white;
+}
+
+.reduce-button:hover {
+  background-color: var(--gray-700);
+}
+
+.delete-button {
+  background-color: var(--red-500);
+  color: white;
+}
+
+.delete-button:hover {
+  background-color: #dc2626;
+}
+
+/* Mensagem de lista vazia */
+.empty-message {
+  background-color: white;
+  padding: var(--space-6);
+  border-radius: var(--radius-md);
+  text-align: center;
+  color: var(--gray-500);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .form-row,
+  .filters-container {
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .actions-cell {
+    flex-wrap: wrap;
+  }
+
+  .action-button {
+    flex: 1;
+    text-align: center;
+  }
+}
+
+/* Estilo para estoque baixo */
+.low-stock {
+  color: #dc2626;
+  font-weight: bold;
+  background-color: #fef2f2;
+}
+
+/* Ajustes na tabela */
+.materials-table th:nth-child(5),
+.materials-table td:nth-child(5) {
+  text-align: center;
+}
+.low-stock-alerts {
+  background: #fff3cd;
+  border: 1px solid #ffeeba;
+  padding: 10px 15px;
+  margin: 20px 0;
+  border-radius: 6px;
+}
+
+.low-stock-alerts h4 {
+  color: #856404;
+  margin-bottom: 8px;
+}
+
+.low-stock-alerts ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.low-stock-alerts li {
+  color: #856404;
+  font-size: 14px;
+  margin-bottom: 4px;
+}

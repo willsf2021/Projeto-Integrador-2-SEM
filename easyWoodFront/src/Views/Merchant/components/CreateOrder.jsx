@@ -1,4 +1,3 @@
-// src/components/Merchant/CreateOrder.jsx
 import React, { useEffect, useState } from "react";
 import MerchantOrderService from "../../../services/MerchantOrderService";
 import UserInfo from "../../../services/UserService";
@@ -12,9 +11,9 @@ const MerchantCreateOrder = () => {
     due_date: "",
   });
 
+  const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-
   const [clients, setClients] = useState([]);
 
   const handleChange = (e) => {
@@ -22,15 +21,26 @@ const MerchantCreateOrder = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError("");
+    setLoading(true);
+
     try {
-      setLoading(true);
-      const newOrder = await MerchantOrderService.createOrder({
+      const order = await MerchantOrderService.createOrder({
         ...formData,
         price: parseFloat(formData.price),
       });
 
+      if (file) {
+        await MerchantOrderService.uploadAttachment(order.id, file);
+      }
+
+      alert("Pedido registrado com sucesso!");
       setFormData({
         client_id: "",
         service: "",
@@ -38,7 +48,7 @@ const MerchantCreateOrder = () => {
         price: "",
         due_date: "",
       });
-      alert("Pedido registrado com sucesso!");
+      setFile(null);
     } catch (err) {
       setError("Erro ao criar pedido: " + err.message);
     } finally {
@@ -130,6 +140,16 @@ const MerchantCreateOrder = () => {
               onChange={handleChange}
             />
           </div>
+        </div>
+
+        <div className="form-group">
+          <label className="form-label">Anexo (jpg, png, pdf)</label>
+          <input
+            type="file"
+            accept=".jpg,.jpeg,.png,.pdf"
+            className="form-input"
+            onChange={handleFileChange}
+          />
         </div>
 
         <div className="form-actions">

@@ -15,6 +15,7 @@ import MerchantActiveOrders from "./Views/Merchant/components/ActiveOrders.jsx";
 import MerchantOrderHistory from "./Views/Merchant/components/OrderHistory.jsx";
 import MerchantOrderDetail from "./Views/Merchant/components/OrderDetails.jsx";
 import CreateOrder from "./Views/Merchant/components/CreateOrder.jsx";
+import MaterialManager from "./Views/Merchant/components/InventoryView/MaterialManager.jsx";
 
 function App() {
   return (
@@ -50,6 +51,14 @@ function App() {
           <Route path="pedidos/:id" element={<MerchantOrderDetail />} />
           <Route path="criar-pedido" element={<CreateOrder />} />
         </Route>
+        <Route
+          path="/estoque"
+          element={
+            <ProtectedRoutes allowedRoles={["merchant"]}>
+              <MaterialManager />
+            </ProtectedRoutes>
+          }
+        ></Route>
 
         <Route path="*" element={<div>Página não encontrada</div>} />
       </Routes>

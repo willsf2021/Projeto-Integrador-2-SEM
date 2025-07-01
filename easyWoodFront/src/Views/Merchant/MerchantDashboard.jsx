@@ -87,6 +87,10 @@ export const MerchantDashboard = () => {
                 <span className="nav-icon">➕</span>
                 <span>Criar Novo Pedido</span>
               </Link>
+              <Link to="/estoque" className="nav-link">
+                <span className="nav-icon">📦</span>
+                <span>Estoque</span>
+              </Link>
             </nav>
           </aside>
 

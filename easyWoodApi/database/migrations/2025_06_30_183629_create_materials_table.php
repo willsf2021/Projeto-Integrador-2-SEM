@@ -13,6 +13,7 @@ return new class extends Migration {
             $table->text('description')->nullable();
             $table->decimal('price', 10, 2);
             $table->integer('quantity');
+            $table->integer('minimum_quantity');
             $table->string('unit')->default('un');
             $table->foreignId('merchant_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();
