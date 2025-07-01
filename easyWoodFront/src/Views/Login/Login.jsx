@@ -4,7 +4,7 @@ import api from "../../services/api.js";
 import { schema } from "./validationSchema.js";
 import "./login.css";
 import woodTexture from "/wood-texture.jpg";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 
 const easyWoodLogo = "/easy-wood-system.png";
 
@@ -145,6 +145,9 @@ export const Login = () => {
                       )}
                     </button>
                   </motion.div>
+                  <div className="register-link">
+                    Não tem uma conta? <Link to="/register">Registre-se</Link>
+                  </div>
                 </Form>
               )}
             </Formik>

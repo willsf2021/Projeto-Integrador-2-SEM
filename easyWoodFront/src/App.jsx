@@ -16,13 +16,14 @@ import MerchantOrderHistory from "./Views/Merchant/components/OrderHistory.jsx";
 import MerchantOrderDetail from "./Views/Merchant/components/OrderDetails.jsx";
 import CreateOrder from "./Views/Merchant/components/CreateOrder.jsx";
 import MaterialManager from "./Views/Merchant/components/InventoryView/MaterialManager.jsx";
+import { Register } from "./Views/Register/Register.jsx";
 
 function App() {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Login />} />
-
+        <Route path="/register" element={<Register />} />
         <Route
           path="/dashboard-cliente"
           element={
