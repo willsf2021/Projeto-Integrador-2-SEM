@@ -72,7 +72,6 @@ A documentação completa do projeto estará disponível na pasta `docs/`. Para 
 
 ## ⚙️ Instalação
 
-## ⚙️ Instalação
 
 ### 1. Clone o repositório
 
@@ -147,7 +146,7 @@ Inicie o servidor de desenvolvimento:
 npm run dev
 ```
 
-A aplicação estará disponível em: `http://localhost:3000`
+A aplicação estará disponível em: `http://localhost:5173`
 
 ---
 
