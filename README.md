@@ -7,12 +7,11 @@
 <img src="assets/easy-wood-system.png" alt="Easy System Logo" width="150" />
 </div>
 
-
 ## 🚀 Sobre
 
 O **EasyWood System** é um aplicativo web desenvolvido como projeto integrador do curso de Desenvolvimento de Software Multiplataforma na FATEC Araras. Voltado para marcenarias, oferece controle de ordens de serviço, pagamentos, estoque e acompanhamento em tempo real pelo cliente.
 
-Está sendo construído como uma API RESTful utilizando **Laravel** no backend, para oferecer uma base sólida, escalável e segura. 
+Está sendo construído como uma API RESTful utilizando **Laravel** no backend, para oferecer uma base sólida, escalável e segura.
 O frontend será desenvolvido separadamente, utilizando uma tecnologia moderna a ser definida futuramente (React, Vue, Angular, ou outra).
 
 Estruturação permitirá maior flexibilidade, facilitando a integração com múltiplos clientes (web, mobile) e melhor manutenção do código.
@@ -23,7 +22,7 @@ Estruturação permitirá maior flexibilidade, facilitando a integração com m�
 
 - **Cadastro e Login**: Autenticação segura para comerciantes e clientes.
 - **Ordens de Serviço**: Criação, atualização de status e histórico de serviços.
-- **Gestão Financeira**: Controle de pagamentos, alertas de cobranças e dashboard financeiro.
+- **Gestão Financeira**: Controle de pagamentos.
 - **Controle de Estoque**: Monitoramento de itens, alertas de estoque baixo.
 - **Anexos**: Upload de fotos, vídeos e arquivos de projeto.
 - **Painel do Cliente**: Acompanhamento em tempo real do progresso das ordens.
@@ -36,6 +35,32 @@ Estruturação permitirá maior flexibilidade, facilitando a integração com m�
 - **Backend:** PHP/Laravel
 - **Banco de Dados:** MySQL
 - **Controle de Versão:** Git & GitHub
+
+---
+
+## 📸 Capturas de Tela
+
+Veja abaixo algumas telas do sistema em funcionamento:
+
+### 🔐 Tela de Login
+
+<img src="./assets/screenshots/login.png" alt="Tela de Login" width="700"/>
+
+### 📋 Dashboard Cliente
+
+<img src="./assets/screenshots/dashboardClient.png" alt="Dashboard Client" width="700"/>
+
+### 💰 Dashboard Prestador
+
+<img src="./assets/screenshots/dashboardMerchant.png" alt="Dashboard Financeiro" width="700"/>
+
+### 🧾 Tela de Detalhes do Pedido
+
+<img src="./assets/screenshots/orderDetails.png" alt="Tela de Pagamentos" width="700"/>
+
+### 📦 Controle de Estoque
+
+<img src="./assets/screenshots/inventory.png" alt="Controle de Estoque" width="700"/>
 
 ---
 

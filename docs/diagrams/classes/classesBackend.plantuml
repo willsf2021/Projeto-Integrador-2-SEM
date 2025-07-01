@@ -1,0 +1,157 @@
+@startuml
+skinparam classAttributeIconSize 0
+skinparam classFontStyle bold
+
+' ==============================
+'         Models
+' ==============================
+package "Models" {
+  class User {
+    +id
+    +name
+    +email
+    +password
+    +type
+    +email_verified_at
+  }
+
+  class Order {
+    +id
+    +client_id
+    +merchant_id
+    +service
+    +description
+    +price
+    +status
+    +payment_status
+    +due_date
+    +deleted_at
+  }
+
+  class OrderAttachment {
+    +id
+    +order_id
+    +original_name
+    +path
+    +mime_type
+    +size
+  }
+
+  class Material {
+    +id
+    +name
+    +description
+    +minimum_quantity
+    +price
+    +quantity
+    +unit
+    +merchant_id
+  }
+
+  class LowStockAlert {
+    +id
+    +material_id
+    +triggered_at
+    +resolved
+  }
+
+  ' Relacionamentos
+  User "1" <-- "many" Order : merchant/client
+  User "1" <-- "many" Material : merchant
+
+  Order "1" <-- "many" OrderAttachment
+  Material "1" <-- "many" LowStockAlert
+  OrderAttachment "many" --> "1" Order
+  LowStockAlert "many" --> "1" Material
+}
+
+
+' ==============================
+'         Controllers
+' ==============================
+package "Controllers" {
+
+  class AuthController {
+    +register()
+    +login()
+    +logout()
+    +me()
+  }
+
+  class UserController {
+    +index()
+    +listClients()
+  }
+
+  class ClientOrderController {
+    +index()
+    +history()
+    +show()
+    +downloadAttachment()
+  }
+
+  class OrderController {
+    +index()
+    +store()
+    +show()
+    +update()
+    +destroy()
+  }
+
+  class OrderAttachmentController {
+    +index()
+    +store()
+    +download()
+    +destroy()
+  }
+
+  class MaterialController {
+    +index()
+    +store()
+    +show()
+    +update()
+    +destroy()
+    +addStock()
+    +reduceStock()
+  }
+
+  class LowStockAlertController {
+    +index()
+    +resolve()
+    +destroy()
+  }
+
+  ' Controllers usam os Models
+  AuthController --> User
+  UserController --> User
+
+  ClientOrderController --> Order
+  ClientOrderController --> OrderAttachment
+
+  OrderController --> Order
+  OrderAttachmentController --> OrderAttachment
+  OrderAttachmentController --> Order
+
+  MaterialController --> Material
+  LowStockAlertController --> LowStockAlert
+  LowStockAlertController --> Material
+}
+
+
+' ==============================
+'         Middleware
+' ==============================
+package "Middleware" {
+  class EnsureUserIsClient {
+    +handle()
+  }
+
+  class EnsureUserIsMerchant {
+    +handle()
+  }
+
+  EnsureUserIsClient --> User
+  EnsureUserIsMerchant --> User
+}
+
+@enduml

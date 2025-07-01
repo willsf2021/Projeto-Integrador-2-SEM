@@ -1,0 +1,61 @@
+@startuml
+skinparam classAttributeIconSize 0
+skinparam classFontStyle bold
+
+package "services" {
+
+  class ClientOrderService {
+    +getActiveOrders()
+    +getOrderById(orderId)
+    +getOrderHistory()
+    +downloadAttachment(orderId, attachmentId)
+  }
+
+  class MerchantOrderService {
+    +getOrders()
+    +getOrderById(orderId)
+    +createOrder(orderData)
+    +updateOrder(orderId, updateData)
+    +deleteOrder(orderId)
+    +getAttachments(orderId)
+    +uploadAttachment(orderId, file)
+    +downloadAttachment(orderId, attachmentId)
+    +deleteAttachment(orderId, attachmentId)
+  }
+
+  class MaterialService {
+    +getMaterials()
+    +getMaterialById(id)
+    +getLowStockAlerts()
+    +getFilteredMaterials(filters)
+    +createMaterial(data)
+    +updateMaterial(id, data)
+    +deleteMaterial(id)
+    +addStock(id, quantity)
+    +reduceStock(id, quantity)
+  }
+
+  class UserInfo {
+    +getUsers()
+  }
+}
+
+' Representar relação genérica com API (sem classe concreta)
+note right of ClientOrderService
+Faz chamadas HTTP para endpoints /client/orders
+e /client/orders/history
+end note
+
+note right of MerchantOrderService
+Faz chamadas HTTP para /orders e /attachments
+end note
+
+note right of MaterialService
+Faz chamadas para /materials e /low-stock-alerts
+end note
+
+note right of UserInfo
+Faz chamadas para /users
+end note
+
+@enduml

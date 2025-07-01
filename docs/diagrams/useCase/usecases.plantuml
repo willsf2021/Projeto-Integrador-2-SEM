@@ -16,7 +16,7 @@ package "Sistema de Gestão de Marcenaria" {
   usecase "Anexar Arquivos (Imagens, esboços)" as UC07
   usecase "Acompanhar Andamento do Serviço" as UC08
   usecase "Ver Histórico de Serviços" as UC09
-  usecase "Visualizar Dashboard Financeiro" as UC10
+
   usecase "Visualizar Arquivos Anexados (Imagens, esboços)" as UC11
 }
 
@@ -27,7 +27,6 @@ Prestador --> UC04
 Prestador --> UC05
 Prestador --> UC06
 Prestador --> UC07
-Prestador --> UC10
 
 
 Cliente --> UC01

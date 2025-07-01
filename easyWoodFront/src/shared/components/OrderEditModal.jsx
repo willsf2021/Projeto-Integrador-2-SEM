@@ -1,4 +1,3 @@
-// src/components/shared/OrderEditModal.jsx
 import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import MerchantOrderService from "../../services/MerchantOrderService";
@@ -8,10 +7,10 @@ const OrderEditModal = ({ order, isOpen, onClose, onUpdate }) => {
   const [activeTab, setActiveTab] = useState("general");
   const [formData, setFormData] = useState({ ...order });
   const [statusOnly, setStatusOnly] = useState(order.status);
+  const [paymentStatus, setPaymentStatus] = useState(order.payment_status);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  // Fecha modal com ESC
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === "Escape") onClose();
@@ -20,7 +19,6 @@ const OrderEditModal = ({ order, isOpen, onClose, onUpdate }) => {
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, [onClose]);
 
-  // Bloqueia scroll do fundo
   useEffect(() => {
     if (isOpen) document.body.style.overflow = "hidden";
     else document.body.style.overflow = "";
@@ -36,6 +34,10 @@ const OrderEditModal = ({ order, isOpen, onClose, onUpdate }) => {
     setStatusOnly(e.target.value);
   };
 
+  const handlePaymentStatusChange = (e) => {
+    setPaymentStatus(e.target.value);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -44,7 +46,10 @@ const OrderEditModal = ({ order, isOpen, onClose, onUpdate }) => {
     try {
       const updateData =
         activeTab === "status"
-          ? { status: statusOnly }
+          ? {
+              status: statusOnly,
+              payment_status: paymentStatus,
+            }
           : { ...formData, price: parseFloat(formData.price) };
 
       const updatedOrder = await MerchantOrderService.updateOrder(
@@ -170,6 +175,20 @@ const OrderEditModal = ({ order, isOpen, onClose, onUpdate }) => {
                   <option value="pending">Pendente</option>
                   <option value="in_progress">Em Andamento</option>
                   <option value="completed">Completo</option>
+                  <option value="cancelled">Cancelado</option>
+                </select>
+              </div>
+
+              <div className="form-group">
+                <label>Status de Pagamento</label>
+                <select
+                  value={paymentStatus}
+                  onChange={handlePaymentStatusChange}
+                  className="form-select"
+                >
+                  <option value="paid">Pago</option>
+                  <option value="pending_payment">Pagamento pendente</option>
+                  <option value="overdue">Atrasado</option>
                   <option value="cancelled">Cancelado</option>
                 </select>
               </div>

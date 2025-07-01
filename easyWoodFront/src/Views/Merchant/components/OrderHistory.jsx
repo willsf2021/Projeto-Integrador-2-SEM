@@ -34,8 +34,8 @@ const OrderHistory = ({ onViewOrder }) => {
 
         setOrders(completedOrders);
       } catch (err) {
-        console.error("Erro ao buscar pedidos:", err);
-        setError("Erro ao carregar histórico de pedidos");
+        console.error("Erro ao buscar o.s:", err);
+        setError("Erro ao carregar histórico de o.s");
       } finally {
         setLoading(false);
       }
@@ -67,7 +67,7 @@ const OrderHistory = ({ onViewOrder }) => {
     return (
       <div className="loading-container">
         <div className="loading-spinner"></div>
-        <p>Carregando histórico de pedidos...</p>
+        <p>Carregando histórico de ordens de serviço...</p>
       </div>
     );
   }
@@ -79,7 +79,7 @@ const OrderHistory = ({ onViewOrder }) => {
   return (
     <div className="order-history-container">
       <div className="section-header">
-        <h2>Histórico de Pedidos</h2>
+        <h2>Ordens de Serviço Finalizadas</h2>
 
         <div className="filters-container">
           <div className="filter-buttons">
@@ -87,25 +87,28 @@ const OrderHistory = ({ onViewOrder }) => {
               className={`filter-btn ${filter === "all" ? "active" : ""}`}
               onClick={() => setFilter("all")}
             >
-              Todos
+              Todas
             </button>
             <button
               className={`filter-btn ${filter === "completed" ? "active" : ""}`}
               onClick={() => setFilter("completed")}
             >
-              Completos
+              Completas
             </button>
             <button
               className={`filter-btn ${filter === "cancelled" ? "active" : ""}`}
               onClick={() => setFilter("cancelled")}
             >
-              Cancelados
+              Canceladas
             </button>
           </div>
 
           <div className="results-count">
             {filteredOrders.length}{" "}
-            {filteredOrders.length === 1 ? "pedido" : "pedidos"} encontrados
+            {filteredOrders.length === 1
+              ? "ordem de serviço"
+              : "ordens de serviço"}{" "}
+            encontrada(s)
           </div>
         </div>
       </div>
@@ -113,8 +116,8 @@ const OrderHistory = ({ onViewOrder }) => {
       {filteredOrders.length === 0 ? (
         <div className="empty-state">
           <div className="empty-icon">📋</div>
-          <h3>Nenhum pedido encontrado</h3>
-          <p>Não encontramos pedidos no seu histórico.</p>
+          <h3>Nenhuma ordem de serviço encontrada</h3>
+          <p>Não encontramos ordens de serviço no seu histórico.</p>
         </div>
       ) : (
         <div className="orders-table-container">
@@ -146,12 +149,6 @@ const OrderHistory = ({ onViewOrder }) => {
                       </span>
                     </td>
                     <td>
-                      <button
-                        className="view-details-btn"
-                        onClick={() => onViewOrder(order)}
-                      >
-                        Ver Detalhes
-                      </button>
                       <button
                         className="edit-btn"
                         onClick={() => handleEditOrder(order)}

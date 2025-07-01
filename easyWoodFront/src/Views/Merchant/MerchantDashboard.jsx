@@ -77,15 +77,15 @@ export const MerchantDashboard = () => {
             <nav className="sidebar-nav">
               <Link to="pedidos" className="nav-link">
                 <span className="nav-icon">📋</span>
-                <span>Pedidos Ativos</span>
+                <span>O.S Ativas</span>
               </Link>
               <Link to="historico" className="nav-link">
                 <span className="nav-icon">🕒</span>
-                <span>Histórico de Pedidos</span>
+                <span>Ordens Finalizadas</span>
               </Link>
               <Link to="criar-pedido" className="nav-link">
                 <span className="nav-icon">➕</span>
-                <span>Criar Novo Pedido</span>
+                <span>Criar Ordem de Serviço</span>
               </Link>
               <Link to="/estoque" className="nav-link">
                 <span className="nav-icon">📦</span>

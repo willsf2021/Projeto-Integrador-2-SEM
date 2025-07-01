@@ -1,4 +1,3 @@
-// src/pages/OrderDetail.jsx
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import MerchantOrderService from "../../../services/MerchantOrderService";
@@ -36,8 +35,9 @@ const OrderDetail = () => {
 
   const setOrderInfo = (data) => {
     let order = data;
-    let status = "";
 
+    // Traduzir status da ordem
+    let status = "";
     switch (data.status) {
       case "pending":
         status = "Pendente";
@@ -51,9 +51,32 @@ const OrderDetail = () => {
       case "in_progress":
         status = "Em andamento";
         break;
+      default:
+        status = data.status;
+    }
+
+    // Traduzir status de pagamento
+    let paymentStatus = "";
+    switch (data.payment_status) {
+      case "paid":
+        paymentStatus = "Pago";
+        break;
+      case "pending_payment":
+        paymentStatus = "Pagamento pendente";
+        break;
+      case "overdue":
+        paymentStatus = "Atrasado";
+        break;
+      case "cancelled":
+        paymentStatus = "Cancelado";
+        break;
+      default:
+        paymentStatus = data.payment_status;
     }
 
     order.status = status;
+    order.payment_status = paymentStatus;
+    console.log(order.payment_status);
     setOrder(order);
   };
 
@@ -93,11 +116,14 @@ const OrderDetail = () => {
         &larr; Voltar
       </button>
 
-      <h2>Detalhes do Pedido</h2>
+      <h2>Detalhes da Ordem de Serviço</h2>
 
       <div className="order-info">
         <p>
           <strong>Status:</strong> {order.status}
+        </p>
+        <p>
+          <strong>Status de pagamento:</strong> {order.payment_status}
         </p>
         <p>
           <strong>Descrição do pedido:</strong> {order.description}

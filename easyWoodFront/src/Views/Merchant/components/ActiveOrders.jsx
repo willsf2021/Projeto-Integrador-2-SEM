@@ -57,7 +57,7 @@ const MerchantActiveOrders = () => {
 
   return (
     <div className="active-orders">
-      <h2>Pedidos Ativos</h2>
+      <h2>Ordens de Serviço Ativas</h2>
 
       {orders.length === 0 ? (
         <div className="empty-state">

@@ -101,7 +101,7 @@ export const ClientDashboard = () => {
                   }`}
                 >
                   <span className="nav-icon">📦</span>
-                  <span>Pedidos Ativos</span>
+                  <span>O.S Ativas</span>
                 </Link>
 
                 <Link
@@ -111,7 +111,7 @@ export const ClientDashboard = () => {
                   }`}
                 >
                   <span className="nav-icon">🕒</span>
-                  <span>Pedidos anteriores</span>
+                  <span>O.S anteriores</span>
                 </Link>
               </nav>
             </aside>
