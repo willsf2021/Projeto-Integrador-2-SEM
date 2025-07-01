@@ -72,25 +72,82 @@ A documentação completa do projeto estará disponível na pasta `docs/`. Para 
 
 ## ⚙️ Instalação
 
-1. Clone o repositório:
-   ```bash
-   git clone https://github.com/willsf2021/Projeto-Integrador-2-SEM.git
-   cd Projeto-Integrador-2-SEM
-   ```
-2. Instale as dependências (frontend e backend):
-   ```bash
-   npm install && cd backend && npm install
-   ```
-3. Configure variáveis de ambiente em `.env` (ex.: DATABASE).
-4. Acesse em `http://localhost:3000`.
-   Renomeie o arquivo `.env.example` para `.env` e ajuste as variáveis de conexão SQL:
-   ```env
-   DB_HOST=localhost
-   DB_NAME=easywood_db
-   DB_USER=root
-   DB_PASS=
-   ```
-5. Acesse `http://localhost/EasyWoodSystem` no navegador.
+## ⚙️ Instalação
+
+### 1. Clone o repositório
+
+```bash
+git clone https://github.com/willsf2021/Projeto-Integrador-2-SEM.git
+cd Projeto-Integrador-2-SEM
+```
+
+---
+
+### 2. Instale as dependências
+
+#### Backend (Laravel API)
+
+```bash
+cd easyWoodApi
+composer install
+cp .env.example .env
+php artisan key:generate
+```
+
+Edite o arquivo `.env` com suas configurações do banco de dados:
+
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=easywood_db
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+Depois, execute as migrações:
+
+```bash
+php artisan migrate
+```
+
+Inicie o servidor da API:
+
+```bash
+php artisan serve
+```
+
+A API estará disponível em: `http://localhost:8000`
+
+---
+
+#### Frontend (React)
+
+Abra outro terminal e vá para a pasta do frontend:
+
+```bash
+cd ../easyWoodFront
+npm install
+```
+
+Altere o arquivo easyWoodFront/src/services/api.js na variável 'baseURL' com a URL da API:
+
+```javascript
+const api = axios.create({
+  baseURL: "http://localhost:8000/api", // Aqui
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
+```
+
+Inicie o servidor de desenvolvimento:
+
+```bash
+npm run dev
+```
+
+A aplicação estará disponível em: `http://localhost:3000`
 
 ---
 
